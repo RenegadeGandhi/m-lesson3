@@ -1,0 +1,107 @@
+postgres=> select * from TeamOludare2021;
+ id | name  | age | department  | role |  status   | createed_dt 
+----+-------+-----+-------------+------+-----------+-------------
+  1 | Sarah |   5 | Accounting  | PM   | Activated | 2020-01-01
+  2 | Tim   |  10 | Engineerimg | QA   | Pending   | 2020-01-02
+  3 | Joe   |  17 | Management  | PM   | Activated | 2020-01-02
+  4 | Tolu  |  25 | Management  | Dev  | Pending   | 2020-01-02
+  5 | Rob   |   5 | Engineerimg | QA   | Activated | 2020-01-03
+  6 | Ade   |  10 | Management  | QA   | Pending   | 2020-01-04
+  7 | Tom   |  17 | Security    | QA   | Activated | 2020-01-05
+  8 | Jide  |  26 | Accounting  | Dev  | Activated | 2020-01-06
+(8 rows)
+
+postgres=> SELECT COUNT(ID) FROM TeamOludare2021;
+ count 
+-------
+     8
+(1 row)
+
+postgres=> SELECT COUNT(Department) FROM TeamOludare2021 WHERE Department = 'Accounting';
+ count 
+-------
+     2
+(1 row)
+
+postgres=> SELECT COUNT(Status) FROM TeamOludare2021 WHERE Status = 'Pending';
+ count 
+-------
+     3
+(1 row)
+
+postgres=> SELECT * FROM TeamOludare2021 WHERE ID BETWEEN 1 AND 5;
+ id | name  | age | department  | role |  status   | createed_dt 
+----+-------+-----+-------------+------+-----------+-------------
+  1 | Sarah |   5 | Accounting  | PM   | Activated | 2020-01-01
+  2 | Tim   |  10 | Engineerimg | QA   | Pending   | 2020-01-02
+  3 | Joe   |  17 | Management  | PM   | Activated | 2020-01-02
+  4 | Tolu  |  25 | Management  | Dev  | Pending   | 2020-01-02
+  5 | Rob   |   5 | Engineerimg | QA   | Activated | 2020-01-03
+(5 rows)
+
+postgres=> SELECT * FROM TeamOludare2021 WHERE Age BETWEEN 18 AND 26;
+ id | name | age | department | role |  status   | createed_dt 
+----+------+-----+------------+------+-----------+-------------
+  4 | Tolu |  25 | Management | Dev  | Pending   | 2020-01-02
+  8 | Jide |  26 | Accounting | Dev  | Activated | 2020-01-06
+(2 rows)
+
+postgres=> SELECT * FROM TeamOludare2021 WHERE Created_dt = 2020-01-02;                                                                                                         
+ERROR:  column "created_dt" does not exist
+LINE 1: SELECT * FROM TeamOludare2021 WHERE Created_dt = 2020-01-02;
+                                            ^
+HINT:  Perhaps you meant to reference the column "teamoludare2021.createed_dt".
+postgres=> SELECT * FROM TeamOludare2021 WHERE Createed_dt = 2020-01-02;
+ERROR:  operator does not exist: date = integer
+LINE 1: SELECT * FROM TeamOludare2021 WHERE Createed_dt = 2020-01-02...
+                                                        ^
+HINT:  No operator matches the given name and argument types. You might need to add explicit type casts.
+postgres=> SELECT * FROM TeamOludare2021 WHERE Createed_dt = '2020-01-02';
+ id | name | age | department  | role |  status   | createed_dt 
+----+------+-----+-------------+------+-----------+-------------
+  2 | Tim  |  10 | Engineerimg | QA   | Pending   | 2020-01-02
+  3 | Joe  |  17 | Management  | PM   | Activated | 2020-01-02
+  4 | Tolu |  25 | Management  | Dev  | Pending   | 2020-01-02
+(3 rows)
+
+postgres=> SELECT * FROM TeamOludare2021 WHERE Created_dt BETWEEN ‘2020-01-04’ AND ‘2020-01-06’;
+ERROR:  syntax error at or near "’"
+LINE 1: ...amOludare2021 WHERE Created_dt BETWEEN ‘2020-01-04’ AND ‘202...
+                                                             ^
+postgres=> SELECT * FROM TeamOludare2021 WHERE Createed_dt BETWEEN '2020-01-04' AND '2020-01-06';                                                                               
+ id | name | age | department | role |  status   | createed_dt 
+----+------+-----+------------+------+-----------+-------------
+  6 | Ade  |  10 | Management | QA   | Pending   | 2020-01-04
+  7 | Tom  |  17 | Security   | QA   | Activated | 2020-01-05
+  8 | Jide |  26 | Accounting | Dev  | Activated | 2020-01-06
+(3 rows)
+
+postgres=> UPDATE TeamOludare2021 SET Status = 'Activated' WHERE Status = 'Pending';
+UPDATE 3
+postgres=> select * from TeamOludare2021;
+ id | name  | age | department  | role |  status   | createed_dt 
+----+-------+-----+-------------+------+-----------+-------------
+  1 | Sarah |   5 | Accounting  | PM   | Activated | 2020-01-01
+  3 | Joe   |  17 | Management  | PM   | Activated | 2020-01-02
+  5 | Rob   |   5 | Engineerimg | QA   | Activated | 2020-01-03
+  7 | Tom   |  17 | Security    | QA   | Activated | 2020-01-05
+  8 | Jide  |  26 | Accounting  | Dev  | Activated | 2020-01-06
+  2 | Tim   |  10 | Engineerimg | QA   | Activated | 2020-01-02
+  4 | Tolu  |  25 | Management  | Dev  | Activated | 2020-01-02
+  6 | Ade   |  10 | Management  | QA   | Activated | 2020-01-04
+(8 rows)
+
+postgres=> UPDATE TeamOludare2021 SET Name = 'Timothy' WHERE ID = 2;
+UPDATE 1
+postgres=> select * from TeamOludare2021;
+ id |  name   | age | department  | role |  status   | createed_dt 
+----+---------+-----+-------------+------+-----------+-------------
+  1 | Sarah   |   5 | Accounting  | PM   | Activated | 2020-01-01
+  3 | Joe     |  17 | Management  | PM   | Activated | 2020-01-02
+  5 | Rob     |   5 | Engineerimg | QA   | Activated | 2020-01-03
+  7 | Tom     |  17 | Security    | QA   | Activated | 2020-01-05
+  8 | Jide    |  26 | Accounting  | Dev  | Activated | 2020-01-06
+  4 | Tolu    |  25 | Management  | Dev  | Activated | 2020-01-02
+  6 | Ade     |  10 | Management  | QA   | Activated | 2020-01-04
+  2 | Timothy |  10 | Engineerimg | QA   | Activated | 2020-01-02
+(8 rows)
